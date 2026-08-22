@@ -1,0 +1,83 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live probes of https://iecure.com/wp-json 2026-08-22
+status: candidate
+note: >-
+  iECURE ships NO MCP server. Nothing here is a live agent surface, and NO `MCPServer` pointer is
+  emitted in apis.yml — emitting one would credit the company with a server it does not run. This
+  file exists to record two real findings and a derived candidate.
+  FINDING 1: the deployment registers the WordPress Abilities API at /wp-abilities/v1 — the
+  capability registry that WordPress MCP adapters read to expose site abilities as tools. It is
+  present and it is CLOSED: /wp-abilities/v1/abilities and /wp-abilities/v1/categories both return
+  401 rest_forbidden to an anonymous caller. So the MCP-adjacent plumbing is installed but nothing
+  is exposed through it.
+  FINDING 2: the All in One SEO plugin registers /aioseo/v1/ai-agents/install-mcp-adapter and
+  /aioseo/v1/ai-agents/generate-app-password. These are administrative POST routes that would
+  install an adapter for a logged-in site administrator; they are not a hosted MCP endpoint and they
+  also return 401 anonymously. They are the plugin's feature, not iECURE's product.
+  The tools below are a CANDIDATE derived from the anonymous read operations in openapi/. They
+  describe what an MCP server over this surface COULD offer. No such server exists.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: probed
+  detail: >-
+    No remote endpoint and no stdio package. Probed anonymously on 2026-08-22:
+    /wp-abilities/v1/abilities 401, /wp-abilities/v1/categories 401, /aioseo/v1/ping 401. No
+    /.well-known/oauth-authorization-server (404) and no /.well-known/oauth-protected-resource (404),
+    so there is no OAuth-protected MCP resource to discover either. No MCP URL was guessed or probed
+    into existence.
+gated_surfaces:
+- path: /wp-abilities/v1/abilities
+  status: 401
+  code: rest_forbidden
+  note: WordPress Abilities API — the registry an MCP adapter would enumerate.
+- path: /wp-abilities/v1/categories
+  status: 401
+  code: rest_forbidden
+- path: /aioseo/v1/ai-agents/install-mcp-adapter
+  method: POST
+  status: 401
+  note: Administrative install route registered by All in One SEO. Not an MCP endpoint.
+- path: /aioseo/v1/ai-agents/generate-app-password
+  method: POST
+  status: 401
+- path: /aioseo/v1/ai-agents/mcp-adapter/release
+  method: GET
+  status: 401
+candidate_tools:
+- name: search_iecure_content
+  description: Full-text search across every published object on iecure.com.
+  rest: [searchContent]
+  source: openapi/iecure-search-api-openapi.yml
+- name: list_iecure_news
+  description: List press releases, media coverage, awards and scientific presentations, filterable by category and date window.
+  rest: [listPosts]
+  source: openapi/iecure-posts-api-openapi.yml
+- name: get_iecure_news_item
+  description: Fetch one news item by numeric ID, with rendered content.
+  rest: [getPost]
+  source: openapi/iecure-posts-api-openapi.yml
+- name: list_iecure_pages
+  description: List the corporate pages — About, Approach, Programs, Careers, policies.
+  rest: [listPages]
+  source: openapi/iecure-pages-api-openapi.yml
+- name: get_iecure_page
+  description: Fetch one corporate page by numeric ID.
+  rest: [getPage]
+  source: openapi/iecure-pages-api-openapi.yml
+- name: list_iecure_team
+  description: List team members, board directors and advisors, filterable by the portfolio_entries group.
+  rest: [listTeamMembers]
+  source: openapi/iecure-team-api-openapi.yml
+- name: list_iecure_news_categories
+  description: List the six news categories with their item counts.
+  rest: [listCategories]
+  source: openapi/iecure-taxonomy-api-openapi.yml
+- name: list_iecure_media
+  description: List media library attachments with source URLs and rendition sizes.
+  rest: [listMedia]
+  source: openapi/iecure-media-api-openapi.yml

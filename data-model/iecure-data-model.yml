@@ -1,0 +1,149 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live anonymous responses from https://iecure.com/wp-json 2026-08-22
+note: >-
+  The entity-relationship graph of the iECURE content API, derived from the live WordPress REST
+  deployment. Counts are the X-WP-Total values observed on 2026-08-22 and are a snapshot, not a
+  contract. The notable deviation from a stock WordPress model is that the `portfolio` custom post
+  type is repurposed here to carry PEOPLE — the leadership team, board, advisors and staff — rather
+  than portfolio work, and is classified by the hierarchical `portfolio_entries` taxonomy whose terms
+  resolve to /team_members/ URLs.
+identifiers:
+  style: integer
+  detail: >-
+    Every object is addressed by a numeric WordPress post/term/user ID. There are no prefixed or
+    typed identifiers, so an ID is only meaningful together with its collection. `slug` is the stable
+    human-readable alternate key and `link` is the canonical public URL.
+entities:
+- name: Post
+  collection: /wp/v2/posts
+  count: 60
+  description: >-
+    The news archive — press releases, media coverage, awards and scientific
+    publications/presentations.
+  key_fields: [id, date, date_gmt, modified, slug, status, link, title.rendered, content.rendered, excerpt.rendered, author, featured_media, categories, tags]
+  relationships:
+  - type: belongs_to
+    target: Author
+    via: author
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+  - type: has_many
+    target: Category
+    via: categories
+  - type: has_many
+    target: Tag
+    via: tags
+- name: Page
+  collection: /wp/v2/pages
+  count: 14
+  description: Corporate pages. Hierarchical.
+  key_fields: [id, slug, link, title.rendered, content.rendered, parent, menu_order, template]
+  relationships:
+  - type: belongs_to
+    target: Page
+    via: parent
+  - type: belongs_to
+    target: Author
+    via: author
+- name: MediaItem
+  collection: /wp/v2/media
+  count: 226
+  description: Media library attachments — logo, pipeline artwork, leadership headshots, document PDFs.
+  key_fields: [id, slug, link, source_url, mime_type, media_type, media_details.sizes, alt_text, post]
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post
+- name: Category
+  collection: /wp/v2/categories
+  count: 6
+  description: >-
+    News taxonomy. Terms observed: news (51), press release (31), in the news (12), awards (9),
+    pubs & pres (8), Uncategorized (0). Hierarchical; counts overlap because a post can carry several.
+  key_fields: [id, slug, name, count, parent, link]
+  relationships:
+  - type: has_many
+    target: Post
+    via: categories
+  - type: belongs_to
+    target: Category
+    via: parent
+- name: Tag
+  collection: /wp/v2/tags
+  count: 0
+  description: The post_tag taxonomy is registered against both `post` and `portfolio` but is empty.
+  key_fields: [id, slug, name, count]
+- name: TeamMember
+  collection: /wp/v2/portfolio
+  count: 35
+  description: >-
+    The `portfolio` post type as deployed by iECURE — a person, not a work sample. Registered under
+    rest_base `portfolio`, with public URLs under /team_members/.
+  key_fields: [id, slug, link, title.rendered, content.rendered, featured_media, portfolio_entries, tags, menu_order]
+  relationships:
+  - type: has_many
+    target: TeamGroup
+    via: portfolio_entries
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+  - type: has_many
+    target: Tag
+    via: tags
+- name: TeamGroup
+  collection: /wp/v2/portfolio_entries
+  count: 5
+  description: >-
+    The hierarchical taxonomy classifying team members. Terms observed: Team (35), TeamMembers (21),
+    BOD (6), Leadership (6), Advisors (3).
+  key_fields: [id, slug, name, count, parent, link]
+  relationships:
+  - type: has_many
+    target: TeamMember
+    via: portfolio_entries
+- name: Author
+  collection: /wp/v2/users
+  count: 2
+  description: >-
+    The accounts that have published content. Anonymously readable on this deployment, which is
+    unusual — most WordPress sites gate /wp/v2/users.
+  key_fields: [id, name, slug, link, description, avatar_urls]
+  relationships:
+  - type: has_many
+    target: Post
+    via: author
+- name: Comment
+  collection: /wp/v2/comments
+  count: 0
+  description: Registered and reachable, but no object on this deployment carries comments.
+  key_fields: [id, post, parent, author_name, content.rendered, status]
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post
+- name: SearchResult
+  collection: /wp/v2/search
+  count: 64
+  description: >-
+    A thin cross-type projection — id, title, url, type, subtype — over every published object.
+    64 objects were addressable at harvest time.
+  key_fields: [id, title, url, type, subtype, _links.self]
+  relationships:
+  - type: belongs_to
+    target: Post|Page|TeamMember
+    via: id + subtype
+- name: ContentType
+  collection: /wp/v2/types
+  description: Registry of the 12 registered post types and their rest_base / taxonomy bindings.
+- name: Taxonomy
+  collection: /wp/v2/taxonomies
+  description: Registry of the 5 registered taxonomies — category, post_tag, nav_menu, wp_pattern_category, portfolio_entries.
+- name: Status
+  collection: /wp/v2/statuses
+  description: Registered post statuses. Only `publish` and `acf-disabled` are exposed.
+graph_notes:
+- Every relationship is also expressed at runtime as a HAL-style `_links` object on the resource,
+  with `_embed` inlining author, featured media and terms in one request.
+- The graph has no write path for a public consumer; see conventions/ reversibility.

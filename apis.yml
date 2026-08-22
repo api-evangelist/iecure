@@ -1,18 +1,275 @@
 aid: iecure
 name: iECURE
-description: 'iECURE is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  iECURE is a clinical-stage genetic medicines company developing variant-agnostic, in vivo targeted
+  gene insertion therapies for rare, life-threatening inherited metabolic diseases, with an initial
+  focus on urea cycle disorders and other neurometabolic conditions of the liver. The company takes
+  its name from iecur, the Latin word for liver, and was founded on the translational gene therapy
+  research of James M. Wilson, M.D., Ph.D., advancing its pipeline in partnership with the University
+  of Pennsylvania Gene Therapy Program. Its lead candidate, ECUR-506, pairs a dual-AAV delivery
+  approach with Precision BioSciences' ARCUS nuclease to insert a functional copy of the OTC gene into
+  the genome of infants with neonatal-onset ornithine transcarbamylase deficiency; it is in the
+  OTC-HOPE study and has received FDA Orphan Drug, Rare Pediatric Disease, Fast Track and RMAT
+  designations plus EU orphan designation, with clinical trial clearances in the United States, United
+  Kingdom, Australia and the EU. Discovery-stage programs target citrullinemia type 1 and
+  phenylketonuria. iECURE has raised roughly $115 million across a $50 million Series A in 2021 and a
+  $65 million Series A-1 in 2022 from Versant Ventures, OrbiMed, Novo Holdings, the Qatar Investment
+  Authority, LYFE Capital and Double Point Ventures. iECURE runs no developer program and publishes no
+  product API, developer portal or API documentation. The only machine-readable surface reachable
+  without credentials is the WordPress REST content API behind iecure.com, catalogued here.
+image: https://iecure.com/wp-content/uploads/iECURE_White_Logo.png
 url: https://raw.githubusercontent.com/api-evangelist/iecure/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+x-tier: profiled
+x-tier-reason: enriched
+specificationVersion: '0.23'
 created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
-apis: []
+- Biotechnology
+- Genetic Medicine
+- Gene Editing
+- Gene Therapy
+- Rare Disease
+- Clinical Trials
+- Life Sciences
+- Pharmaceuticals
+- content-api
+tags_raw:
+- Company
+- biotechnology
+- genetic-medicine
+- gene-editing
+- gene-therapy
+- rare-disease
+- clinical-trials
+- life-sciences
+- pharmaceuticals
+- content-api
+apis:
+- aid: iecure:iecure-discovery-api
+  name: iECURE Discovery API
+  description: >-
+    Route, content-type, taxonomy and status discovery documents for the iECURE WordPress REST
+    deployment. Ten namespaces and 351 routes are registered; only these discovery documents and the
+    content collections below answer without credentials.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Discovery
+  tags_raw:
+  - discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-discovery-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-posts-api
+  name: iECURE Posts API
+  description: >-
+    The iECURE news archive - press releases, media coverage, awards and scientific
+    publications/presentations. 60 published posts at harvest time across six categories.
+  humanURL: https://iecure.com/news/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Posts
+  tags_raw:
+  - posts
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-posts-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-pages-api
+  name: iECURE Pages API
+  description: >-
+    Corporate pages - About, Approach, Programs, Careers, Contact, News, Terms of Service, Privacy
+    Notice, Cookie Notice, Expanded Access Policy, Social Media Community Guidelines and Pharmacy
+    Training. 14 published pages at harvest time.
+  humanURL: https://iecure.com/about/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Pages
+  tags_raw:
+  - pages
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-pages-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-media-api
+  name: iECURE Media API
+  description: >-
+    The media library backing the site - 226 attachments at harvest time, including the corporate
+    logo, pipeline artwork and leadership headshots.
+  humanURL: https://developer.wordpress.org/rest-api/reference/media/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Media
+  tags_raw:
+  - media
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-media-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-taxonomy-api
+  name: iECURE Taxonomy API
+  description: >-
+    Categories and tags. Six news categories are registered (news, press release, in the news,
+    awards, pubs & pres, Uncategorized); the post_tag taxonomy is registered but empty.
+  humanURL: https://developer.wordpress.org/rest-api/reference/categories/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Taxonomy
+  tags_raw:
+  - taxonomy
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-taxonomy-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-team-api
+  name: iECURE Team API
+  description: >-
+    The `portfolio` custom post type as deployed by iECURE, which carries team members rather than
+    portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into
+    Leadership, BOD, Advisors, Team and TeamMembers.
+  humanURL: https://iecure.com/about/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Team
+  tags_raw:
+  - team
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-team-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-search-api
+  name: iECURE Search API
+  description: >-
+    Cross-content search across every published object on iecure.com. 64 objects were addressable at
+    harvest time.
+  humanURL: https://developer.wordpress.org/rest-api/reference/search-results/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Search
+  tags_raw:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-search-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-users-api
+  name: iECURE Authors API
+  description: >-
+    Author directory. Anonymously readable on this deployment - unusually, since most WordPress
+    sites gate it - returning the two accounts that have published content.
+  humanURL: https://developer.wordpress.org/rest-api/reference/users/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Authors
+  tags_raw:
+  - authors
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-users-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-comments-api
+  name: iECURE Comments API
+  description: >-
+    Comment collection. Registered and anonymously reachable, but empty - no post on this deployment
+    carries comments.
+  humanURL: https://developer.wordpress.org/rest-api/reference/comments/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - Comments
+  tags_raw:
+  - comments
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-comments-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
+- aid: iecure:iecure-oembed-api
+  name: iECURE oEmbed API
+  description: oEmbed 1.0 provider endpoint for iecure.com URLs, returning JSON or XML rich/link responses.
+  humanURL: https://oembed.com/
+  baseURL: https://iecure.com/wp-json
+  tags:
+  - oEmbed
+  tags_raw:
+  - oembed
+  properties:
+  - type: OpenAPI
+    url: openapi/iecure-oembed-api-openapi.yml
+  - type: Authentication
+    url: authentication/iecure-authentication.yml
+  - type: ErrorCatalog
+    url: errors/iecure-problem-types.yml
+  - type: Conventions
+    url: conventions/iecure-conventions.yml
+  - type: DataModel
+    url: data-model/iecure-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +277,63 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://iecure.com/
+- type: About
+  url: https://iecure.com/about/
+- type: Approach
+  url: https://iecure.com/approach/
+- type: Pipeline
+  url: https://iecure.com/programs/
+- type: News
+  url: https://iecure.com/news/
+- type: BlogRSS
+  url: https://iecure.com/feed/
+- type: Careers
+  url: https://iecure.com/careers/
+- type: Support
+  url: https://iecure.com/contact/
+- type: ExpandedAccessPolicy
+  url: https://iecure.com/expanded-access-policy/
+- type: PatientResources
+  url: https://otc-hope.com/
+- type: TermsOfService
+  url: https://iecure.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://iecure.com/privacy-notice/
+- type: CookieNotice
+  url: https://iecure.com/cookie-notice/
+- type: SocialMediaGuidelines
+  url: https://iecure.com/social-media-community-guidelines/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/iecure
+- type: SecondaryMarket
   url: https://www.nasdaqprivatemarket.com/
+- type: Authentication
+  url: authentication/iecure-authentication.yml
+- type: Conventions
+  url: conventions/iecure-conventions.yml
+- type: Conformance
+  url: conformance/iecure-conformance.yml
+- type: ErrorCatalog
+  url: errors/iecure-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/iecure-lifecycle.yml
+- type: DataModel
+  url: data-model/iecure-data-model.yml
+- type: DomainSecurity
+  url: security/iecure-domain-security.yml
+- type: Overlay
+  url: overlays/iecure-content-overlay.yaml
+- type: LLMsTxt
+  url: llms/iecure-llms.txt
+- type: RateLimits
+  url: rate-limits/iecure-rate-limits.yml
+- type: Plans
+  url: plans/iecure-plans-pricing.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-08-22'
+  status: enriched
+  artifacts_added: 27
+  pass: local-v1

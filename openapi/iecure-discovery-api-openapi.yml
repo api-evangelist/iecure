@@ -1,0 +1,428 @@
+openapi: 3.1.0
+info:
+  title: iECURE Discovery API
+  version: wp/v2
+  description: 'Route, content-type, taxonomy and status discovery documents for the iECURE WordPress
+    REST deployment. Anonymously readable.
+
+
+    Derived by API Evangelist from the live WordPress REST route index published at https://iecure.com/wp-json/
+    and from anonymous responses observed on 2026-08-22. iECURE is a clinical-stage genetic-medicines
+    company and runs no developer program; this is the content API its own website is built on, not a
+    product API. Only routes that returned 200 without credentials are described here - administrative
+    and plugin routes that answered 401 are deliberately excluded.'
+  contact:
+    name: iECURE
+    url: https://iecure.com/contact/
+    email: info@iecure.com
+  x-source: https://iecure.com/wp-json/
+  x-harvested: '2026-08-22'
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+servers:
+- url: https://iecure.com/wp-json
+  description: iECURE WordPress REST API
+tags:
+- name: discovery
+  description: Route, content-type, taxonomy and status discovery documents for the iECURE WordPress REST
+    deployment. Anonymously readable.
+paths:
+  /:
+    get:
+      operationId: getRouteIndex
+      summary: getRouteIndex
+      description: GET https://iecure.com/wp-json/ - observed anonymously reachable on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          default: view
+  /wp/v2:
+    get:
+      operationId: getWpV2Index
+      summary: getWpV2Index
+      description: GET https://iecure.com/wp-json/wp/v2 - observed anonymously reachable on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: namespace
+        in: query
+        required: false
+        schema:
+          type: string
+          default: wp/v2
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          default: view
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      summary: listTypes
+      description: GET https://iecure.com/wp-json/wp/v2/types - observed anonymously reachable on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total:
+              description: Total number of matching items.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      summary: getType
+      description: GET https://iecure.com/wp-json/wp/v2/types/{type} - observed anonymously reachable
+        on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: type
+        in: path
+        required: true
+        description: Identifier of the requested type.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: listTaxonomies
+      description: GET https://iecure.com/wp-json/wp/v2/taxonomies - observed anonymously reachable on
+        2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total:
+              description: Total number of matching items.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to taxonomies associated with a specific post type.
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: getTaxonomy
+      description: GET https://iecure.com/wp-json/wp/v2/taxonomies/{taxonomy} - observed anonymously reachable
+        on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        description: Identifier of the requested taxonomy.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      summary: listStatuses
+      description: GET https://iecure.com/wp-json/wp/v2/statuses - observed anonymously reachable on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total:
+              description: Total number of matching items.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+  /wp/v2/statuses/{status}:
+    get:
+      operationId: getStatus
+      summary: getStatus
+      description: GET https://iecure.com/wp-json/wp/v2/statuses/{status} - observed anonymously reachable
+        on 2026-08-22.
+      tags:
+      - discovery
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: status
+        in: path
+        required: true
+        description: Identifier of the requested status.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem details.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code - the stable discriminator.
+        message:
+          type: string
+          description: Human-readable message, localized to the site language.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              description: Per-parameter messages. Present only on rest_invalid_param.
+            details:
+              type: object
+              description: Per-parameter structured detail with a nested code.

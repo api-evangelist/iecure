@@ -1,0 +1,78 @@
+overlay: 1.0.0
+info:
+  title: iECURE content API enhancements
+  version: 1.0.0
+  description: >-
+    API Evangelist enhancements over the ten OpenAPI documents in openapi/, which were themselves
+    derived from the live WordPress REST route index at https://iecure.com/wp-json/. This overlay
+    records what WE added on top of the provider's machine-readable surface — deployment-specific
+    facts that the generic WordPress contract does not carry — without mutating the source documents.
+    iECURE authors none of this; the overlay is the honest boundary between their contract and our
+    annotation.
+x-generated: '2026-08-22'
+x-method: generated
+x-source: openapi/iecure-*-openapi.yml
+x-extends:
+- openapi/iecure-discovery-api-openapi.yml
+- openapi/iecure-posts-api-openapi.yml
+- openapi/iecure-pages-api-openapi.yml
+- openapi/iecure-media-api-openapi.yml
+- openapi/iecure-taxonomy-api-openapi.yml
+- openapi/iecure-team-api-openapi.yml
+- openapi/iecure-search-api-openapi.yml
+- openapi/iecure-users-api-openapi.yml
+- openapi/iecure-comments-api-openapi.yml
+- openapi/iecure-oembed-api-openapi.yml
+actions:
+- target: $.info
+  description: Record provenance and the read-only posture of the catalogued surface.
+  update:
+    x-provenance:
+      harvested_by: API Evangelist
+      harvested: '2026-08-22'
+      derived_from: https://iecure.com/wp-json/
+      authored_by_provider: false
+      upstream_contract: https://developer.wordpress.org/rest-api/
+    x-access:
+      anonymous_read: true
+      write_surface: none-public
+      credentials_required: false
+- target: $.info
+  description: Attach the cross-cutting artifacts so a consumer reads the contract with its semantics.
+  update:
+    x-artifacts:
+      authentication: authentication/iecure-authentication.yml
+      conventions: conventions/iecure-conventions.yml
+      errors: errors/iecure-problem-types.yml
+      lifecycle: lifecycle/iecure-lifecycle.yml
+      data_model: data-model/iecure-data-model.yml
+      conformance: conformance/iecure-conformance.yml
+      rate_limits: rate-limits/iecure-rate-limits.yml
+- target: $.servers[0]
+  description: Note that the base URL is a site-relative WordPress mount, not a dedicated API host.
+  update:
+    x-host-note: >-
+      There is no api.iecure.com — the API is mounted on the marketing site itself and shares its
+      Cloudflare + Kinsta path. api., developer., docs. and status.iecure.com are all NXDOMAIN.
+- target: $.paths.*.get.responses['200']
+  description: Declare the pagination and cache signals actually observed on 200 responses.
+  update:
+    x-observed-headers:
+      access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link
+      cf-cache-status: DYNAMIC
+      x-kinsta-cache: BYPASS
+      x-robots-tag: noindex
+      x-content-type-options: nosniff
+- target: $.paths.*.get.responses['400']
+  description: Bind the 400 response to the derived error catalogue entry.
+  update:
+    x-error-catalog: errors/iecure-problem-types.yml#rest_invalid_param
+- target: $.paths.*.get.responses['404']
+  description: Bind the 404 response to the derived error catalogue entries.
+  update:
+    x-error-catalog: errors/iecure-problem-types.yml#rest_no_route
+- target: $.components.schemas.ErrorResponse
+  description: State explicitly that this envelope is not RFC 9457, so agents do not assume problem+json.
+  update:
+    x-rfc9457: false
+    x-discriminator-field: code

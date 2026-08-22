@@ -1,0 +1,38 @@
+generated: '2026-08-22'
+method: probed
+source: live response headers observed on https://iecure.com/wp-json 2026-08-22
+limit_count: 0
+note: >-
+  iECURE documents no rate limits, and its API returns no rate-limit signal. Full response headers
+  were captured from /wp-json/wp/v2/posts and carry no RateLimit-*, no X-RateLimit-*, and no
+  Retry-After. No 429 was produced during this pass. There is no developer documentation to publish
+  a limit in, because there is no developer program. An honest zero: this is what the surface
+  actually signals, and an agent calling it has no runtime backpressure signal to read.
+limits: []
+response_headers:
+  standard_ratelimit: absent
+  x_ratelimit: absent
+  retry_after: absent
+  observed_headers_on_200:
+  - 'link: <https://iecure.com/wp-json/wp/v2/posts?per_page=2&page=2>; rel="next"'
+  - 'x-wp-total: 60'
+  - 'x-wp-totalpages: 30'
+  - 'access-control-expose-headers: X-WP-Total, X-WP-TotalPages, Link'
+  - 'cf-cache-status: DYNAMIC'
+  - 'x-kinsta-cache: BYPASS'
+  - 'x-robots-tag: noindex'
+  - 'x-content-type-options: nosniff'
+exhaustion_status: null
+undocumented_controls:
+  robots_crawl_delay: null
+  detail: >-
+    robots.txt sets no Crawl-delay — it is the stock "Default Flywheel robots file" and disallows
+    only calendar/event query permutations. Two edge layers sit in front of the origin (Cloudflare,
+    then Kinsta) and either could apply an unsignalled control under load, but none was observed
+    during this pass. The only per-request bound in the contract is the parameter clamp: per_page is
+    capped at 100 and exceeding it returns 400 rest_invalid_param, which is validation, not rate
+    limiting.
+evidence:
+- url: https://iecure.com/wp-json/wp/v2/posts?per_page=2
+  status: 200
+  note: Full header dump captured; no rate-limit family present.

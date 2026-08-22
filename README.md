@@ -64,5 +64,15 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-iECURE is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+iECURE is a clinical-stage genetic medicines company developing variant-agnostic, in vivo targeted
+gene insertion therapies for rare inherited metabolic diseases of the liver, with lead candidate
+ECUR-506 in the OTC-HOPE study for neonatal-onset ornithine transcarbamylase deficiency.
+
+iECURE runs no developer program and publishes no product API, developer portal or API
+documentation. The only machine-readable surface reachable without credentials is the WordPress REST
+content API behind `iecure.com`, which is what this profile catalogues: ten per-surface OpenAPI 3.1
+documents derived from the live route index at `https://iecure.com/wp-json/`, plus the authentication,
+conventions, error, lifecycle, conformance and data-model artifacts derived from it.
+
+- https://iecure.com/
+- https://iecure.com/wp-json/

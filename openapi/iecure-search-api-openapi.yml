@@ -1,0 +1,176 @@
+openapi: 3.1.0
+info:
+  title: iECURE Search API
+  version: wp/v2
+  description: 'Cross-content search across every published object on iecure.com. 64 objects were addressable
+    at harvest time.
+
+
+    Derived by API Evangelist from the live WordPress REST route index published at https://iecure.com/wp-json/
+    and from anonymous responses observed on 2026-08-22. iECURE is a clinical-stage genetic-medicines
+    company and runs no developer program; this is the content API its own website is built on, not a
+    product API. Only routes that returned 200 without credentials are described here - administrative
+    and plugin routes that answered 401 are deliberately excluded.'
+  contact:
+    name: iECURE
+    url: https://iecure.com/contact/
+    email: info@iecure.com
+  x-source: https://iecure.com/wp-json/
+  x-harvested: '2026-08-22'
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+servers:
+- url: https://iecure.com/wp-json
+  description: iECURE WordPress REST API
+tags:
+- name: search
+  description: Cross-content search across every published object on iecure.com. 64 objects were addressable
+    at harvest time.
+paths:
+  /wp/v2/search:
+    get:
+      operationId: searchContent
+      summary: searchContent
+      description: GET https://iecure.com/wp-json/wp/v2/search - observed anonymously reachable on 2026-08-22.
+      tags:
+      - search
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total:
+              description: Total number of matching items.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param - a query parameter failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: rest_no_route or rest_post_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        description: Maximum number of items to be returned in result set.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+          default: post
+        description: Limit results to items of an object type.
+      - name: subtype
+        in: query
+        required: false
+        schema:
+          type: array
+          default: any
+          items:
+            type: string
+            enum:
+            - post
+            - page
+            - portfolio
+            - category
+            - post_tag
+            - portfolio_entries
+            - any
+        description: Limit results to items of one or more object subtypes.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: integer
+        description: Ensure result set excludes specific IDs.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: integer
+        description: Limit result set to specific IDs.
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem details.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code - the stable discriminator.
+        message:
+          type: string
+          description: Human-readable message, localized to the site language.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              description: Per-parameter messages. Present only on rest_invalid_param.
+            details:
+              type: object
+              description: Per-parameter structured detail with a nested code.

@@ -1,0 +1,79 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live responses observed on https://iecure.com/wp-json 2026-08-22
+note: >-
+  Standards conformance of the iECURE content API, asserted only where it was observed in the
+  contract or on the wire. iECURE publishes no compliance claims, no certification page and no trust
+  center, so no `Compliance` and no `TrustCenter` pointer is emitted in apis.yml. The company is a
+  clinical-stage biotechnology firm; its regulatory obligations are FDA/EMA drug-development
+  obligations, not API compliance regimes, and no domain API standard applies to a corporate content
+  surface. The reward-only domain_standard_conformance slot is therefore left empty rather than
+  filled with an invented conformance.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    Ten OpenAPI 3.1.0 documents in openapi/, derived by API Evangelist from the provider's live route
+    index. Authored by API Evangelist, not by iECURE — recorded as our artifact, not their claim.
+- id: oembed-1.0
+  conforms: true
+  evidence: >-
+    /wp-json/oembed/1.0/embed returns a conformant oEmbed 1.0 response — version "1.0",
+    provider_name "iECURE", provider_url https://iecure.com, author_name, and a rich/link type.
+    Both json and xml formats are declared. This is a real, published, standards-conformant surface.
+- id: rfc8288-web-linking
+  conforms: true
+  evidence: >-
+    Collection responses return a Link header carrying rel="next"/rel="prev". Observed on
+    /wp/v2/posts?per_page=2 as '<https://iecure.com/wp-json/wp/v2/posts?per_page=2&page=2>; rel="next"'.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Page-number pagination via page/per_page/offset with X-WP-Total and X-WP-TotalPages response
+    headers, both exposed cross-origin via Access-Control-Expose-Headers.
+- id: cors
+  conforms: true
+  evidence: >-
+    Access-Control-Allow-Headers advertises Authorization, X-WP-Nonce, Content-Disposition,
+    Content-MD5, Content-Type; Access-Control-Expose-Headers advertises X-WP-Total, X-WP-TotalPages
+    and Link. Vary includes Origin.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors use the WordPress envelope {code, message, data:{status}} served as application/json.
+    No `type` URI, no application/problem+json. See errors/iecure-problem-types.yml.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: 'GET https://iecure.com/.well-known/security.txt -> 404 (themed HTML body).'
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: 'GET https://iecure.com/.well-known/api-catalog -> 404.'
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No OAuth 2.0 surface. /.well-known/oauth-authorization-server and
+    /.well-known/oauth-protected-resource both 404. The only declared auth provider is WordPress
+    Application Passwords over HTTP Basic.
+- id: oidc
+  conforms: false
+  evidence: 'GET https://iecure.com/.well-known/openid-configuration -> 404.'
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation header observed on any response.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header and no anonymous write surface. See conventions/.
+- id: json-schema
+  conforms: partial
+  evidence: >-
+    The WordPress route index publishes JSON Schema-shaped `args` per endpoint (type, enum, default,
+    minimum, maximum, items), which is what the OpenAPI parameter schemas in openapi/ were derived
+    from. Full resource schemas are available via the OPTIONS method, which this pass did not exercise.
+domain_standards:
+  applicable: false
+  detail: >-
+    Checked against the life-sciences regime shortlist. iECURE exposes no HL7 FHIR, no CDISC
+    ODM/SDTM, no ICH E2B, no IDMP and no clinical-trial registry API — because it is a drug developer,
+    not a health IT vendor, and the only surface it exposes is its corporate website's CMS. The
+    company's clinical programs are registered on ClinicalTrials.gov and its patient-facing trial
+    site is otc-hope.com, but neither is an iECURE-operated API. Reward-only slot left empty.

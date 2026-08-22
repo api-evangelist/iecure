@@ -1,0 +1,60 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live probes of https://iecure.com and its subdomains on 2026-08-22
+note: >-
+  iECURE runs no developer program, so it publishes no API versioning policy, no deprecation policy,
+  no SLA and no status page. Nothing below is asserted on the company's behalf. No `StatusPage` and
+  no `Deprecation` pointer is emitted in apis.yml, because neither exists — the operational
+  transparency checks those pointers feed would be false credit here.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  docs: https://developer.wordpress.org/rest-api/
+  provider_policy: null
+  detail: >-
+    The version lives in the route namespace and is set by WordPress core and the installed plugins,
+    not by iECURE. Namespaces observed 2026-08-22: oembed/1.0, aioseo/v1, wp-umbrella/v1,
+    duplicate-post/v1, wp-analytify/v1, regenerate-thumbnails/v1, wp/v2, wp-site-health/v1,
+    wp-block-editor/v1, wp-abilities/v1. A plugin update can add, change or remove routes at any time
+    with no notice to consumers — the wp-abilities/v1 namespace is itself a recent arrival.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No RFC 8594 Sunset header and no Deprecation header observed on any response. No deprecation
+    policy is published. Route churn is inherited from upstream WordPress and plugin releases.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  detail: >-
+    No status page. status.iecure.com is NXDOMAIN, and no third-party status page (Statuspage,
+    Instatus, Better Stack) is linked from the site.
+support:
+  url: https://iecure.com/contact/
+  email: info@iecure.com
+  medical_information_email: medinfo@iecure.com
+  detail: >-
+    The company publishes a corporate contact page with a general address and a separate medical
+    information address. There is no developer support channel, no forum and no issue tracker.
+infrastructure:
+  origin: Kinsta (ki-edge v=28.4.7, x-kinsta-cache)
+  edge: Cloudflare (cf-ray, cf-cache-status)
+  note: >-
+    robots.txt is still the stock "Default Flywheel robots file" while the response headers report
+    Kinsta — evidence of a host migration that left the robots policy behind. A minor finding, but a
+    real one for anyone reasoning about crawl policy from that file.
+content_cadence:
+  posts_published: 60
+  latest_post: '2026-08-19'
+  detail: >-
+    Measured from /wp/v2/posts on 2026-08-22 (X-WP-Total: 60). The news archive is actively
+    maintained; the content API is therefore live data, not an abandoned surface.
+company_lifecycle:
+  stage: clinical-stage (private)
+  lead_program: ECUR-506, Phase 3, neonatal-onset ornithine transcarbamylase deficiency
+  discovery_programs: [citrullinemia type 1 (CTLN1), phenylketonuria (PKU)]
+  source: https://iecure.com/programs/

@@ -1,0 +1,103 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live anonymous probes of https://iecure.com/wp-json on 2026-08-22
+summary:
+  types: [http]
+  api_key_in: []
+  oauth2_flows: []
+  public_read: true
+note: >-
+  iECURE runs no developer program and publishes no authentication documentation. Every operation
+  catalogued in this repo is anonymous read: no credentials are required and none are accepted for
+  the content collections. The /wp-json/ index does, however, advertise one authentication provider
+  — WordPress Application Passwords, presented over HTTP Basic — whose authorization endpoint is the
+  wp-admin screen. That is an editorial credential for staff, not a developer credential: there is no
+  self-service sign-up, no key issuance, and no scope model behind it. It is recorded here because it
+  is what the provider's own discovery document declares, not because it is a consumable auth surface.
+schemes:
+- name: applicationPasswords
+  type: http
+  scheme: basic
+  declared_in: https://iecure.com/wp-json/ (authentication.application-passwords)
+  authorization_endpoint: https://iecure.com/wp-admin/authorize-application.php
+  applies_to: Authenticated WordPress users only; no anonymous route requires or accepts it.
+  detail: >-
+    WordPress Application Passwords. The user authorizes an application at the wp-admin URL above and
+    receives a generated password sent as HTTP Basic credentials. No scopes, no expiry contract, no
+    refresh. iECURE does not document this and it is not offered to third parties.
+anonymous_access:
+  readable:
+  - GET /
+  - GET /wp/v2
+  - GET /wp/v2/posts
+  - GET /wp/v2/posts/{id}
+  - GET /wp/v2/pages
+  - GET /wp/v2/pages/{id}
+  - GET /wp/v2/media
+  - GET /wp/v2/media/{id}
+  - GET /wp/v2/categories
+  - GET /wp/v2/categories/{id}
+  - GET /wp/v2/tags
+  - GET /wp/v2/portfolio
+  - GET /wp/v2/portfolio/{id}
+  - GET /wp/v2/portfolio_entries
+  - GET /wp/v2/portfolio_entries/{id}
+  - GET /wp/v2/comments
+  - GET /wp/v2/users
+  - GET /wp/v2/users/{id}
+  - GET /wp/v2/search
+  - GET /wp/v2/types
+  - GET /wp/v2/types/{type}
+  - GET /wp/v2/taxonomies
+  - GET /wp/v2/taxonomies/{taxonomy}
+  - GET /wp/v2/statuses
+  - GET /wp/v2/statuses/{status}
+  - GET /wp/v2/blocks
+  - GET /oembed/1.0/embed
+  gated:
+  - path: /wp/v2/settings
+    status: 401
+    code: rest_forbidden
+  - path: /wp/v2/themes
+    status: 401
+    code: rest_cannot_view_themes
+  - path: /wp/v2/plugins
+    status: 401
+    code: rest_cannot_view_plugins
+  - path: /wp/v2/block-types
+    status: 401
+    code: rest_block_type_cannot_view
+  - path: /wp/v2/menu-locations
+    status: 401
+    code: rest_cannot_view
+  - path: /wp/v2/sidebars
+    status: 401
+    code: rest_cannot_manage_widgets
+  - path: /wp/v2/font-collections
+    status: 401
+    code: rest_cannot_read
+  - path: /wp-abilities/v1/abilities
+    status: 401
+    code: rest_forbidden
+    note: >-
+      The WordPress Abilities API — the agent-facing capability registry that MCP adapters read.
+      Registered on this deployment but closed to anonymous callers.
+  - path: /wp-abilities/v1/categories
+    status: 401
+    code: rest_forbidden
+  - path: /aioseo/v1/ping
+    status: 401
+    code: rest_forbidden
+  - path: /aioseo/v1/tags
+    status: 401
+    code: rest_forbidden
+  write_operations: >-
+    Every POST/PUT/PATCH/DELETE route in the 351-route index requires an authenticated WordPress
+    user. None were exercised — this pipeline reads only.
+x-evidence:
+  probed: '2026-08-22'
+  index: https://iecure.com/wp-json/
+  index_authentication_field:
+    application-passwords:
+      endpoints:
+        authorization: https://iecure.com/wp-admin/authorize-application.php

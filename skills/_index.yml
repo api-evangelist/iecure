@@ -1,0 +1,31 @@
+generated: '2026-08-22'
+method: generated
+source: openapi/ + live probes of https://iecure.com/wp-json 2026-08-22
+note: >-
+  Packaged Agent Skills for the iECURE content API. Authored by API Evangelist, not published by
+  iECURE — the company runs no developer program and ships no skills, AGENTS.md or agent
+  documentation (searched 2026-08-22). Every operationId referenced below was verified against the
+  OpenAPI documents in openapi/, which were themselves derived from the provider's live route index;
+  none is invented. All three skills are read-only, because the public surface is read-only.
+skills:
+- name: iecure-track-news-archive
+  file: skills/iecure-track-news-archive.md
+  api: iecure:iecure-posts-api
+  operations: [listPosts, getPost, listCategories]
+  summary: >-
+    Monitor press releases, media coverage, awards and scientific presentations, with category
+    filters and the modified_after incremental-sweep pattern.
+- name: iecure-resolve-team-and-leadership
+  file: skills/iecure-resolve-team-and-leadership.md
+  api: iecure:iecure-team-api
+  operations: [listTeamGroups, listTeamMembers, getTeamMember, listAuthors]
+  summary: >-
+    Resolve leadership, board, advisors and staff from the `portfolio` post type this deployment
+    repurposes to carry people — the one thing an agent cannot guess about this API.
+- name: iecure-harvest-media-library
+  file: skills/iecure-harvest-media-library.md
+  api: iecure:iecure-media-api
+  operations: [listMedia, getMediaItem]
+  summary: >-
+    Enumerate 226 attachments with correct renditions from media_details.sizes, and trace each back
+    to its parent press release.

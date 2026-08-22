@@ -1,0 +1,100 @@
+generated: '2026-08-22'
+method: derived
+source: openapi/ + live anonymous error responses observed on https://iecure.com/wp-json 2026-08-22
+format: wordpress-rest
+rfc9457: false
+note: >-
+  iECURE publishes no error reference — it runs no developer program. This catalogue is derived from
+  the WordPress REST error envelope and from error bodies actually observed on 2026-08-22. The
+  envelope is `{code, message, data:{status, params?, details?}}` served as application/json. It is
+  NOT RFC 9457 problem details: there is no `type` URI, no title/detail split and no
+  application/problem+json media type, so no dereferenceable problem-type URIs exist for this
+  provider and none are invented here. The `code` field is the stable machine-readable discriminator.
+envelope:
+  media_type: application/json
+  fields:
+    code: Machine-readable error code — the stable discriminator.
+    message: Human-readable message, localized to the site language.
+    data.status: The HTTP status code, repeated in the body.
+    data.params: Per-parameter messages. Present only on rest_invalid_param.
+    data.details: Per-parameter structured detail with its own nested code.
+problems:
+- status: 400
+  code: rest_invalid_param
+  title: Invalid parameter
+  detail: One or more query parameters failed validation.
+  observed: 'GET /wp/v2/posts?per_page=500 -> {"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page must be between 1 (inclusive) and 100 (inclusive)"},"details":{"per_page":{"code":"rest_out_of_bounds",...}}}}'
+  remediation: Clamp per_page to 1..100 and re-send; read data.details[param].code for the specific rule.
+  source_operations:
+  - openapi/iecure-posts-api-openapi.yml#listPosts
+  - openapi/iecure-pages-api-openapi.yml#listPages
+  - openapi/iecure-media-api-openapi.yml#listMedia
+  - openapi/iecure-team-api-openapi.yml#listTeamMembers
+  - openapi/iecure-search-api-openapi.yml#searchContent
+- status: 400
+  code: rest_out_of_bounds
+  title: Parameter out of bounds
+  detail: Nested code inside data.details when a numeric parameter falls outside its allowed range.
+  remediation: Respect the minimum/maximum declared for the parameter in the OpenAPI.
+- status: 401
+  code: rest_forbidden
+  title: Authentication required
+  detail: >-
+    The generic WordPress permission denial. Returned anonymously for /wp/v2/settings, the whole
+    wp-abilities/v1 namespace and the aioseo/v1 namespace.
+  observed: 'GET /wp/v2/settings -> {"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+  remediation: >-
+    Not remediable by a public consumer. These routes are administrative and require an
+    authenticated WordPress user; they are excluded from the OpenAPI in this repo.
+- status: 401
+  code: rest_cannot_view_themes
+  title: Cannot view themes
+  detail: Returned anonymously for /wp/v2/themes.
+- status: 401
+  code: rest_cannot_view_plugins
+  title: Cannot manage plugins
+  detail: Returned anonymously for /wp/v2/plugins.
+- status: 401
+  code: rest_block_type_cannot_view
+  title: Cannot view block types
+  detail: Returned anonymously for /wp/v2/block-types.
+- status: 401
+  code: rest_cannot_view
+  title: Cannot view resource
+  detail: Returned anonymously for /wp/v2/menu-locations.
+- status: 401
+  code: rest_cannot_manage_widgets
+  title: Cannot manage widgets
+  detail: Returned anonymously for /wp/v2/sidebars.
+- status: 401
+  code: rest_cannot_read
+  title: Cannot read collection
+  detail: Returned anonymously for /wp/v2/font-collections.
+- status: 404
+  code: rest_post_invalid_id
+  title: Invalid post ID
+  detail: No published object exists with the requested numeric identifier.
+  observed: 'GET /wp/v2/posts/999999 -> {"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+  remediation: Resolve the identifier through the collection or /wp/v2/search before fetching it directly.
+  source_operations:
+  - openapi/iecure-posts-api-openapi.yml#getPost
+  - openapi/iecure-pages-api-openapi.yml#getPage
+  - openapi/iecure-media-api-openapi.yml#getMediaItem
+- status: 404
+  code: rest_no_route
+  title: No route matched
+  detail: >-
+    "No route was found matching the URL and request method." Note that this JSON error is produced
+    only for paths under /wp-json/. A bad path elsewhere under the WordPress rewrite — for example
+    /.well-known/agent-card.json — returns the Avada theme HTML 404 page instead.
+  observed: 'GET /wp-json/wp/v2/nosuchroute -> {"code":"rest_no_route","message":"No route was found matching the URL and request method.","data":{"status":404}}'
+edge_errors:
+  note: >-
+    Errors can also originate at the edge rather than the application, and do not use the WordPress
+    envelope. Two layers sit in front of the origin: Cloudflare, then Kinsta.
+  cases:
+  - status: 404
+    origin: WordPress / Avada theme
+    body: 56,812 bytes of themed HTML
+    detail: Returned for every /.well-known/* path and for unmatched site paths.
+    remediation: Do not treat a 200-sized HTML body as a document; parse before trusting.

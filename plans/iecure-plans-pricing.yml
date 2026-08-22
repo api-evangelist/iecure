@@ -1,0 +1,29 @@
+generated: '2026-08-22'
+method: searched
+source: https://iecure.com/ (full site crawl of all 14 published pages via /wp/v2/pages, 2026-08-22)
+plan_count: 0
+currency: null
+note: >-
+  iECURE publishes no plans, no pricing and no commercial API offer of any kind. It is a
+  clinical-stage genetic medicines company with no product on the market and no developer program:
+  there is no sign-up, no console, no key issuance and no billing surface. Every one of its 14
+  published pages was enumerated through the site's own /wp/v2/pages collection and none is a pricing
+  page. The content API catalogued in this repo is the CMS behind iecure.com and is free and
+  anonymous by default — free because nobody is selling it, not because a free tier was designed.
+  A measured zero, not an unchecked field.
+plans: []
+commercial_posture:
+  self_service_signup: false
+  sales_gate: false
+  enterprise_only: false
+  detail: >-
+    Not "contact sales" either — there is nothing to buy. The only commercial-adjacent surfaces on
+    the site are a careers page and an expanded access policy governing pre-approval access to
+    investigational therapy, which is a regulatory pathway rather than a purchase.
+evidence:
+- url: https://iecure.com/wp-json/wp/v2/pages?per_page=100&_fields=id,slug,link,title
+  status: 200
+  note: 14 pages returned; no pricing, plans, billing or developer page among them.
+- url: https://iecure.com/expanded-access-policy/
+  status: 200
+  note: Regulatory access policy for investigational product, not a commercial plan.
