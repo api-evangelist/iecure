@@ -1,0 +1,14 @@
+{
+  "repo": "iecure",
+  "feeds": [
+    {
+      "source": "https://iecure.com/news/",
+      "feed_url": "https://iecure.com/feed/",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 1,
+  "fetched": "2026-08-22T20:20:02Z"
+}
