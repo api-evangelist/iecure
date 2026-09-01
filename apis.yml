@@ -40,14 +40,14 @@ created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
-- biotechnology
-- genetic-medicine
-- gene-editing
-- gene-therapy
-- rare-disease
-- clinical-trials
-- life-sciences
-- pharmaceuticals
+- Biotechnology
+- Genetic Medicine
+- Gene Editing
+- Gene Therapy
+- Rare Disease
+- Clinical Trials
+- Life Sciences
+- Pharmaceuticals
 - content-api
 tags_raw:
 - Company
@@ -226,7 +226,7 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/reference/users/
   baseURL: https://iecure.com/wp-json
   tags:
-  - authors
+  - Authors
   tags_raw:
   - authors
   properties:
