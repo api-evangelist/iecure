@@ -78,9 +78,9 @@ apis:
 - aid: iecure:iecure-discovery-api
   name: iECURE Discovery API
   description: >-
-    Route, content-type, taxonomy and status discovery documents for the iECURE WordPress REST
-    deployment. Ten namespaces and 351 routes are registered; only these discovery documents and the
-    content collections below answer without credentials.
+    Route, content-type, taxonomy and status discovery documents for the iECURE WordPress REST deployment.
+    Ten namespaces and 351 routes are registered; only these discovery documents and the content collections
+    below answer without credentials.
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -101,8 +101,8 @@ apis:
 - aid: iecure:iecure-posts-api
   name: iECURE Posts API
   description: >-
-    The iECURE news archive - press releases, media coverage, awards and scientific
-    publications/presentations. 60 published posts at harvest time across six categories.
+    The iECURE news archive - press releases, media coverage, awards and scientific publications/presentations.
+    60 published posts at harvest time across six categories.
   humanURL: https://iecure.com/news/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -123,9 +123,9 @@ apis:
 - aid: iecure:iecure-pages-api
   name: iECURE Pages API
   description: >-
-    Corporate pages - About, Approach, Programs, Careers, Contact, News, Terms of Service, Privacy
-    Notice, Cookie Notice, Expanded Access Policy, Social Media Community Guidelines and Pharmacy
-    Training. 14 published pages at harvest time.
+    Corporate pages - About, Approach, Programs, Careers, Contact, News, Terms of Service, Privacy Notice,
+    Cookie Notice, Expanded Access Policy, Social Media Community Guidelines and Pharmacy Training. 14
+    published pages at harvest time.
   humanURL: https://iecure.com/about/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -146,8 +146,8 @@ apis:
 - aid: iecure:iecure-media-api
   name: iECURE Media API
   description: >-
-    The media library backing the site - 226 attachments at harvest time, including the corporate
-    logo, pipeline artwork and leadership headshots.
+    The media library backing the site - 226 attachments at harvest time, including the corporate logo,
+    pipeline artwork and leadership headshots.
   humanURL: https://developer.wordpress.org/rest-api/reference/media/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -168,8 +168,8 @@ apis:
 - aid: iecure:iecure-taxonomy-api
   name: iECURE Taxonomy API
   description: >-
-    Categories and tags. Six news categories are registered (news, press release, in the news,
-    awards, pubs & pres, Uncategorized); the post_tag taxonomy is registered but empty.
+    Categories and tags. Six news categories are registered (news, press release, in the news, awards,
+    pubs & pres, Uncategorized); the post_tag taxonomy is registered but empty.
   humanURL: https://developer.wordpress.org/rest-api/reference/categories/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -190,9 +190,9 @@ apis:
 - aid: iecure:iecure-team-api
   name: iECURE Team API
   description: >-
-    The `portfolio` custom post type as deployed by iECURE, which carries team members rather than
-    portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into
-    Leadership, BOD, Advisors, Team and TeamMembers.
+    The `portfolio` custom post type as deployed by iECURE, which carries team members rather than portfolio
+    work - 35 items at harvest time, classified by the portfolio_entries taxonomy into Leadership, BOD,
+    Advisors, Team and TeamMembers.
   humanURL: https://iecure.com/about/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -213,8 +213,8 @@ apis:
 - aid: iecure:iecure-search-api
   name: iECURE Search API
   description: >-
-    Cross-content search across every published object on iecure.com. 64 objects were addressable at
-    harvest time.
+    Cross-content search across every published object on iecure.com. 64 objects were addressable at harvest
+    time.
   humanURL: https://developer.wordpress.org/rest-api/reference/search-results/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -235,8 +235,8 @@ apis:
 - aid: iecure:iecure-users-api
   name: iECURE Authors API
   description: >-
-    Author directory. Anonymously readable on this deployment - unusually, since most WordPress
-    sites gate it - returning the two accounts that have published content.
+    Author directory. Anonymously readable on this deployment - unusually, since most WordPress sites
+    gate it - returning the two accounts that have published content.
   humanURL: https://developer.wordpress.org/rest-api/reference/users/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -257,8 +257,8 @@ apis:
 - aid: iecure:iecure-comments-api
   name: iECURE Comments API
   description: >-
-    Comment collection. Registered and anonymously reachable, but empty - no post on this deployment
-    carries comments.
+    Comment collection. Registered and anonymously reachable, but empty - no post on this deployment carries
+    comments.
   humanURL: https://developer.wordpress.org/rest-api/reference/comments/
   baseURL: https://iecure.com/wp-json
   tags:
@@ -276,18 +276,17 @@ apis:
     url: conventions/iecure-conventions.yml
   - type: DataModel
     url: data-model/iecure-data-model.yml
-- aid: iecure:iecure-oembed-api
-  name: iECURE oEmbed API
-  description: oEmbed 1.0 provider endpoint for iecure.com URLs, returning JSON or XML rich/link responses.
-  humanURL: https://oembed.com/
+- aid: iecure:iecure-o-embed-api
+  name: iECURE o Embed API
+  description: >-
+    oEmbed 1.0 provider endpoint for iecure.com URLs, returning JSON or XML rich/link responses.
+  humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://iecure.com/wp-json
   tags:
-  - oEmbed
-  tags_raw:
-  - oembed
+  - o Embed
   properties:
   - type: OpenAPI
-    url: openapi/iecure-oembed-api-openapi.yml
+    url: openapi/iecure-o-embed-api-openapi.yml
   - type: Authentication
     url: authentication/iecure-authentication.yml
   - type: ErrorCatalog
