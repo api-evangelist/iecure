@@ -1,17 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: iECURE Team API
   version: wp/v2
-  description: 'The `portfolio` custom post type as deployed by iECURE, which carries team members rather
-    than portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into
-    Leadership, BOD, Advisors, Team and TeamMembers.
-
-
-    Derived by API Evangelist from the live WordPress REST route index published at https://iecure.com/wp-json/
-    and from anonymous responses observed on 2026-08-22. iECURE is a clinical-stage genetic-medicines
-    company and runs no developer program; this is the content API its own website is built on, not a
-    product API. Only routes that returned 200 without credentials are described here - administrative
-    and plugin routes that answered 401 are deliberately excluded.'
+  description: The `portfolio` custom post type as deployed by iECURE, which carries team members rather than portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into Leadership, BOD, Advisors, Team and TeamMembers.
   contact:
     name: iECURE
     url: https://iecure.com/contact/
@@ -23,19 +14,16 @@ servers:
 - url: https://iecure.com/wp-json
   description: iECURE WordPress REST API
 tags:
-- name: team
-  description: The `portfolio` custom post type as deployed by iECURE, which carries team members rather
-    than portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into
-    Leadership, BOD, Advisors, Team and TeamMembers.
+- name: Team
+  description: The `portfolio` custom post type as deployed by iECURE, which carries team members rather than portfolio work - 35 items at harvest time, classified by the portfolio_entries taxonomy into Leadership, BOD, Advisors, Team and TeamMembers.
 paths:
   /wp/v2/portfolio:
     get:
       operationId: listTeamMembers
       summary: listTeamMembers
-      description: GET https://iecure.com/wp-json/wp/v2/portfolio - observed anonymously reachable on
-        2026-08-22.
+      description: GET https://iecure.com/wp-json/wp/v2/portfolio - observed anonymously reachable on 2026-08-22.
       tags:
-      - team
+      - Team
       responses:
         '200':
           description: Success.
@@ -296,16 +284,14 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the portfolio_entries
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the portfolio_entries taxonomy.
   /wp/v2/portfolio/{id}:
     get:
       operationId: getTeamMember
       summary: getTeamMember
-      description: GET https://iecure.com/wp-json/wp/v2/portfolio/{id} - observed anonymously reachable
-        on 2026-08-22.
+      description: GET https://iecure.com/wp-json/wp/v2/portfolio/{id} - observed anonymously reachable on 2026-08-22.
       tags:
-      - team
+      - Team
       responses:
         '200':
           description: Success.
@@ -359,10 +345,9 @@ paths:
     get:
       operationId: listTeamGroups
       summary: listTeamGroups
-      description: GET https://iecure.com/wp-json/wp/v2/portfolio_entries - observed anonymously reachable
-        on 2026-08-22.
+      description: GET https://iecure.com/wp-json/wp/v2/portfolio_entries - observed anonymously reachable on 2026-08-22.
       tags:
-      - team
+      - Team
       responses:
         '200':
           description: Success.
@@ -507,10 +492,9 @@ paths:
     get:
       operationId: getTeamGroup
       summary: getTeamGroup
-      description: GET https://iecure.com/wp-json/wp/v2/portfolio_entries/{id} - observed anonymously
-        reachable on 2026-08-22.
+      description: GET https://iecure.com/wp-json/wp/v2/portfolio_entries/{id} - observed anonymously reachable on 2026-08-22.
       tags:
-      - team
+      - Team
       responses:
         '200':
           description: Success.

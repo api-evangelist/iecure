@@ -1,0 +1,36 @@
+{
+  "provider": "iecure",
+  "sources": [
+    "iecure-comments-api-openapi.yml",
+    "iecure-discovery-api-openapi.yml",
+    "iecure-media-api-openapi.yml",
+    "iecure-o-embed-api-openapi.yml",
+    "iecure-pages-api-openapi.yml",
+    "iecure-posts-api-openapi.yml",
+    "iecure-search-api-openapi.yml",
+    "iecure-taxonomy-api-openapi.yml",
+    "iecure-team-api-openapi.yml",
+    "iecure-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "iecure-comments-api-openapi.yml",
+    "iecure-discovery-api-openapi.yml",
+    "iecure-media-api-openapi.yml",
+    "iecure-o-embed-api-openapi.yml",
+    "iecure-pages-api-openapi.yml",
+    "iecure-posts-api-openapi.yml",
+    "iecure-search-api-openapi.yml",
+    "iecure-taxonomy-api-openapi.yml",
+    "iecure-team-api-openapi.yml",
+    "iecure-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "no openapi/_original/ archive: this run re-split PREVIOUSLY REFINED output, so any base URL it carries is inherited from an earlier pass rather than read from a document the provider published"
+  ],
+  "notes": [
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}
